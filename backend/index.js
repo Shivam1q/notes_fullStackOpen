@@ -65,6 +65,21 @@ app.delete("/api/notes/:id", (request, response) => {
   response.status(204).end();
 });
 
+app.put("/api/notes/:id", (request, response) => {
+  const id = request.params.id;
+  const body = request.body;
+
+  const noteIndex = notes.findIndex((note) => note.id === id);
+  if (noteIndex === -1) {
+    return response.status(404).end();
+  }
+
+  const updatedNote = { ...notes[noteIndex], ...body, id };
+  notes[noteIndex] = updatedNote;
+
+  response.json(updatedNote);
+});
+
 app.post("/api/notes", (request, response) => {
   const body = request.body;
 
